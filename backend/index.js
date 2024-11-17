@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./Routes/userRoutes.js";
 import claimRoutes from "./Routes/claimRoutes.js";
+import reportRoutes from "./Routes/reportRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -13,6 +14,7 @@ app.use(express.json());
 
 app.use("/api/auth", userRoutes);
 app.use("/api/claims", claimRoutes);
+app.use("/api/reports", reportRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI, {})
