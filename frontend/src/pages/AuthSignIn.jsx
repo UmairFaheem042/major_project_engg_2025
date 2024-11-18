@@ -1,6 +1,7 @@
 // import { SignIn, useAuth } from "@clerk/clerk-react";
 import React, { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import Logo from "../assets/logo.svg";
 
 const AuthSignIn = () => {
   const navigate = useNavigate();
@@ -52,9 +53,9 @@ const AuthSignIn = () => {
         </aside>
 
         <main className="flex min-h-screen items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
-          <div className="max-w-xl lg:max-w-3xl">
-            <h1 className="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-              Welcome to UNDECIDED
+          <div className="flex flex-col w-full max-w-xl lg:max-w-3xl">
+            <h1 className="text-2xl font-bold flex gap-2 items-center text-gray-900 sm:text-2xl md:text-2xl">
+              Welcome to <img src={Logo} className="h-[40px]" alt="" />
             </h1>
 
             <form
@@ -70,7 +71,7 @@ const AuthSignIn = () => {
                   type="email"
                   className="mt-1 w-full rounded-md border p-2 bg-white text-sm text-gray-700 shadow-sm"
                   value={email}
-                  onChange={(e)=>setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -82,7 +83,7 @@ const AuthSignIn = () => {
                 <input
                   type="password"
                   value={password}
-                  onChange={(e)=>setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                   min={0}
                   className="mt-1 w-full rounded-md  border p-2 bg-white text-sm text-gray-700 shadow-sm"
                 />
@@ -97,7 +98,7 @@ const AuthSignIn = () => {
                 <input
                   type="text"
                   value={policyNumber}
-                  onChange={(e)=>setPolicyNumber(e.target.value)}
+                  onChange={(e) => setPolicyNumber(e.target.value)}
                   className="mt-1 w-full rounded-md  border p-2 bg-white text-sm text-gray-700 shadow-sm"
                 />
               </div>

@@ -101,7 +101,7 @@ const UserDashboard = () => {
     <div className="px-4 py-6 max-w-[1400px] mx-auto">
       <div className="my-5 flex justify-between items-center">
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold">
-          Hello <span className="text-green-600">{user.name}</span>
+          Hello <span className="text-blue-500">{user.name}</span>
         </h1>
         <Dialog className="w-[100%] ">
           <DialogTrigger asChild>

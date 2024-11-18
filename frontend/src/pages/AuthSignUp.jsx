@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import Logo from "../assets/logo.svg";
 
 const AuthSignUp = () => {
   const navigate = useNavigate();
@@ -56,9 +57,9 @@ const AuthSignUp = () => {
         </aside>
 
         <main className="flex min-h-screen  items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
-          <div className="max-w-xl lg:max-w-3xl">
-            <h1 className="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-              Welcome to UNDECIDED
+          <div className="flex flex-col w-full max-w-xl lg:max-w-3xl">
+            <h1 className="text-2xl font-bold flex gap-2 items-center text-gray-900 sm:text-2xl md:text-2xl">
+              Welcome to <img src={Logo} className="h-[40px]" alt="" />
             </h1>
 
             <form
