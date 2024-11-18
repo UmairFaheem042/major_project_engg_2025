@@ -10,6 +10,7 @@ import AuthSignUp from "./pages/AuthSignUp";
 import Header from "./components/Header";
 import Report from "./pages/Report";
 import AdminLogin from "./pages/AdminLogin";
+import Claim from "./pages/Claim";
 
 const App = () => {
   return (
@@ -47,11 +48,20 @@ const App = () => {
           }
         />
         <Route
-          path="/user/:userId/claim/:claimId"
+          path="/user/:userId/report/:claimId"
           element={
             <>
               <Header />
               <Report />
+            </>
+          }
+        />
+        <Route
+          path="/user/:userId/claim/:claimId"
+          element={
+            <>
+              <Header />
+              <Claim />
             </>
           }
         />
