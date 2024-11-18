@@ -19,7 +19,12 @@ const ClaimList = ({ title, data, userId }) => {
         </span>
         <Link to={`/user/${userId}/claim/${data._id}`}>
           <Button variant="outline" className="min-w-[100px]">
-            View
+            View Claim
+          </Button>
+        </Link>
+        <Link to={`/user/${userId}/report/${data._id}`}>
+          <Button variant="outline" className="min-w-[100px]">
+            View Report
           </Button>
         </Link>
       </p>
