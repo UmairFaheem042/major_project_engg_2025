@@ -1,8 +1,8 @@
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-export const verifyToken = (req, res, next) => {
+exports.verifyToken = (req, res, next) => {
   const token = req.headers["authorization"];
 
   if (!token) {
@@ -16,7 +16,8 @@ export const verifyToken = (req, res, next) => {
         .json({ msg: "Failed to authenticate token", status: false });
     }
 
-    req.userId = decoded.id;
+    req.userId = {id: decoded.id};
     next();
   });
 };
+

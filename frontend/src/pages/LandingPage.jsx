@@ -21,7 +21,7 @@ const LandingPage = () => {
           <Link to="/sign-up" className="font-medium">
             {/* <button className="text-sm font-medium px-6 py-2 border rounded-md min-w-[120px]">
               Get Started
-            </button> */}
+              </button> */}
             <Button className="min-w-[120px]">Get Started</Button>
           </Link>
           <Link to="/sign-in" className="font-medium">

@@ -1,39 +1,42 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
 const claimSchema = new mongoose.Schema({
   policyNumber: {
     type: String,
-    required: true
+    required: true,
   },
   hospitalName: {
     type: String,
-    required: true
+    required: true,
   },
-  userName: {
+  name: {
     type: String,
-    required: true
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
   },
   claimAmount: {
     type: Number,
-    required: true
+    required: true,
   },
   accidental: {
     type: Boolean,
-    default: false
+    default: false,
   },
   kidneyRelated: {
     type: Boolean,
-    default: false
+    default: false,
   },
   heartRelated: {
     type: Boolean,
-    default: false
+    default: false,
   },
   timeStamp: {
     type: Date,
-    default: Date.now 
-  }
+    default: Date.now,
+  },
 });
 
-const Claim = mongoose.model('Claim', claimSchema);
-export default Claim;
+module.exports = mongoose.model("Claim", claimSchema);

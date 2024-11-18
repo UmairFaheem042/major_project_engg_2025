@@ -1,8 +1,15 @@
-import ClaimList from "@/components/ClaimList";
-import DashboardBox from "@/components/DashboardBox";
-import React from "react";
+import ClaimList from "../components/ClaimList";
+import DashboardBox from "../components/DashboardBox";
+import React, { useEffect } from "react";
 
 const AdminDashboard = () => {
+  let claims = [];
+
+  // useEffect(()=>{
+  //   async function fetchAllClaims(){
+  //     const response = await fetch("http://localhost:3000/")
+  //   }
+  // },[])
   return (
     <div className="px-4 py-6 max-w-[1400px] mx-auto">
       <div className="my-5 flex justify-between items-center">
@@ -22,8 +29,15 @@ const AdminDashboard = () => {
       <div className="mt-10">
         <h3 className="text-xl font-semibold">Recent Claims</h3>
         <ul className="mt-4 flex flex-col gap-2">
-          <ClaimList title={"Claim_1"} status={"Approved"} />
-          <ClaimList title={"Claim_2"} status={"Declined"} />
+          {claims?.map((item) => (
+            <ClaimList
+              key={item._id}
+              title={item._id}
+              status={item.status}
+              data={item}
+              userId={userId}
+            />
+          ))}
         </ul>
       </div>
     </div>

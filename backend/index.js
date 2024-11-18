@@ -1,10 +1,10 @@
-import express from "express";
-import cors from "cors";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import userRoutes from "./Routes/userRoutes.js";
-import claimRoutes from "./Routes/claimRoutes.js";
-import reportRoutes from "./Routes/reportRoutes.js";
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const userRoutes = require("./Routes/userRoutes.js");
+const claimRoutes = require("./Routes/claimRoutes.js");
+const reportRoutes = require("./Routes/reportRoutes.js");
 
 dotenv.config();
 const app = express();

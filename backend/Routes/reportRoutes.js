@@ -1,13 +1,15 @@
-import express from "express";
-import { verifyToken } from "./Middlewares/VerifyToken.js";
-import {
+const express = require("express");
+const { verifyToken } = require("../Middlewares/verifyToken.js");
+const {
   createReport,
   getReportByClaimId,
-} from "../Controllers/reportController.js";
+} = require("../Controllers/reportController.js");
 
 const router = express.Router();
 
-router.post("/createReport", verifyToken, createReport);
-router.get("/:claimId", verifyToken, getReportByClaimId);
+// router.post("/createReport", verifyToken, createReport);
+router.post("/createReport", createReport);
+// router.get("/:claimId", verifyToken, getReportByClaimId);
+router.get("/:claimId",  getReportByClaimId);
 
-export default router;
+module.exports = router;

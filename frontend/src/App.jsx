@@ -9,6 +9,7 @@ import AuthSignIn from "./pages/AuthSignIn";
 import AuthSignUp from "./pages/AuthSignUp";
 import Header from "./components/Header";
 import Report from "./pages/Report";
+import AdminLogin from "./pages/AdminLogin";
 
 const App = () => {
   return (
@@ -46,11 +47,27 @@ const App = () => {
           }
         />
         <Route
-          path="/claim/:claimId"
+          path="/user/:userId/claim/:claimId"
           element={
             <>
               <Header />
-              <Report/>
+              <Report />
+            </>
+          }
+        />
+        <Route
+          path="/admin-login"
+          element={
+            <>
+              <AdminLogin />
+            </>
+          }
+        />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <>
+              <AdminDashboard />
             </>
           }
         />

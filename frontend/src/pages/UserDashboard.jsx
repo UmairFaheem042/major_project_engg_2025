@@ -1,5 +1,5 @@
 // import { useAuth } from "@clerk/clerk-react";
-import React from "react";
+import React, { useEffect, useId, useState } from "react";
 import DashboardBox from "../components/DashboardBox";
 import ClaimList from "../components/ClaimList";
 import {
@@ -13,22 +13,95 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
-import claims from "../../utils/demoData";
+import { useParams } from "react-router-dom";
 
 const UserDashboard = () => {
-  // const { userId } = useAuth();
-  // console.log(userId);
+  const [policyNumber, setPolicyNumber] = useState("");
+  const [hospitalName, setHospitalName] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [claimAmount, setClaimAmount] = useState("");
+  const [description, setDescription] = useState("");
+  const [issueType, setIssueType] = useState("");
+  const [claims, setClaims] = useState([]);
+  const [approvedClaims, setApprovedClaims] = useState(0);
+  const [rejectedClaims, setRejectedClaims] = useState(0);
 
-  function handleSubmit(e) {
+  const { userId } = useParams();
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log("Creating Claim");
+    const requestData = {
+      policyNumber,
+      hospitalName,
+      email,
+      name,
+      claimAmount,
+      description,
+      accidental: issueType === "accident",
+      kidneyRelated: issueType === "kidney",
+      heartRelated: issueType === "heart",
+    };
+    console.log(requestData);
+    const token = localStorage.getItem("authToken");
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/claims/createClaim",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(requestData),
+        }
+      );
+      console.log(response);
+      if (!response.ok) {
+        alert("Error creating claim");
+        return;
+      }
+
+      const data = await response.json();
+      setClaims((prev) => [...prev] + data);
+      window.location.reload();
+
+      if (response.ok) {
+        setPolicyNumber("");
+        setHospitalName("");
+        setEmail("");
+        setName("");
+        setClaimAmount("");
+        setDescription("");
+        setIssueType("");
+      } else {
+        alert(`Error: ${data.msg}`);
+      }
+    } catch (error) {
+      console.error("Error creating claim:", error);
+      alert("Something went wrong. Please try again.");
+    }
   }
+
+  useEffect(() => {
+    async function fetchAllClaimsById() {
+      const response = await fetch(
+        `http://localhost:3000/api/claims/${userId}/claims`
+      );
+      const data = await response.json();
+
+      setClaims(data);
+    }
+
+    fetchAllClaimsById();
+  }, []);
 
   return (
     <div className="px-4 py-6 max-w-[1400px] mx-auto">
       <div className="my-5 flex justify-between items-center">
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold">
-          Hello <span>User</span>!
+          Hello <span className="text-green-600">{user.name}</span>
         </h1>
         <Dialog className="w-[100%] ">
           <DialogTrigger asChild>
@@ -42,37 +115,44 @@ const UserDashboard = () => {
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col gap-4 py-4">
                 <Input
-                  type="text"
-                  defaultValue=""
-                  placeholder="Claim Title"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Registered Email"
                   className="font-semibold"
                 />
                 <Input
-                  type="number"
-                  defaultValue=""
+                  type="text"
+                  value={policyNumber}
+                  onChange={(e) => setPolicyNumber(e.target.value)}
                   placeholder="Policy Number"
                   className="font-semibold"
                 />
                 <Input
                   type="text"
-                  defaultValue=""
+                  value={hospitalName}
+                  onChange={(e) => setHospitalName(e.target.value)}
                   placeholder="Hospital Name"
                   className="font-semibold"
                 />
                 <Input
                   type="text"
-                  defaultValue=""
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="Full Name"
                   className="font-semibold"
                 />
                 <Input
                   type="number"
                   min={0}
-                  defaultValue=""
+                  value={claimAmount}
+                  onChange={(e) => setClaimAmount(e.target.value)}
                   placeholder="Claim Amount"
                   className="font-semibold"
                 />
                 <Textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                   className="w-[100%]  font-semibold resize-none"
                   placeholder="Description ..."
                 />
@@ -80,7 +160,8 @@ const UserDashboard = () => {
 
               <label>Issue:</label>
               <RadioGroup
-                defaultValue="option-one"
+                value={issueType}
+                onValueChange={(value) => setIssueType(value)}
                 className="grid grid-cols-2 gap-2"
               >
                 <div className="flex items-center space-x-2">
@@ -94,10 +175,6 @@ const UserDashboard = () => {
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="kidney" />
                   <label className="font-semibold">Kidney Related</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="hear" />
-                  <label className="font-semibold">Hear Related</label>
                 </div>
               </RadioGroup>
               <div className="flex gap-3 justify-end mt-5">
@@ -115,23 +192,24 @@ const UserDashboard = () => {
 
       {/* stats */}
       <div className="mt-10 grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3">
-        <DashboardBox label={"Total Claims"} count={2} />
-        <DashboardBox label={"Claims Approved"} count={1} />
-        <DashboardBox label={"Claims Rejected"} count={1} />
+        <DashboardBox label={"Total Claims"} count={claims?.length} />
+        <DashboardBox label={"Claims Approved"} count={"NA"} />
+        <DashboardBox label={"Claims Rejected"} count={"NA"} />
       </div>
 
       {/* recent claims */}
       <div className="mt-10">
         <h3 className="text-xl font-semibold">Recent Claims</h3>
         <ul className="mt-4 flex flex-col gap-2">
-          {claims.map((item, index) => (
-            <ClaimList
-              key={item.id}
-              title={item.name}
-              status={item.status}
-              data={item}
-            />
-          ))}
+          {claims &&
+            claims?.map((item) => (
+              <ClaimList
+                key={item._id}
+                title={item._id}
+                data={item}
+                userId={userId}
+              />
+            ))}
         </ul>
       </div>
     </div>

@@ -1,11 +1,11 @@
-import User from "../Models/userModel";
-import PolicyNumber from "../models/PolicyNumber";
-import bcrypt from "bcrypt.js";
-import jwt from "jsonwebtoken";
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const User = require("../Models/userModel");
+const PolicyNumber = require("../Models/policyNumberModel");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-export const register = async (req, res, next) => {
+exports.register = async (req, res, next) => {
   try {
     const { name, phoneNumber, email, password, address, role } = req.body;
 
@@ -55,14 +55,14 @@ export const register = async (req, res, next) => {
   }
 };
 
-export const login = async (req, res, next) => {
+exports.login = async (req, res, next) => {
   try {
-    const { username, password, policyNumber } = req.body;
+    const { email, password, policyNumber } = req.body;
 
-    const user = await User.findOne({ username, policyNumber });
+    const user = await User.findOne({ email, policyNumber });
     if (!user) {
       return res.status(400).json({
-        msg: "Incorrect username, policy number, or password",
+        msg: "Incorrect email, policy number, or password",
         status: false,
       });
     }
@@ -70,7 +70,7 @@ export const login = async (req, res, next) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({
-        msg: "Incorrect username, policy number, or password",
+        msg: "Incorrect email, policy number, or password",
         status: false,
       });
     }
@@ -81,11 +81,11 @@ export const login = async (req, res, next) => {
     const token = jwt.sign(
       {
         id: user._id,
-        username: user.username,
+        email: user.email,
         policyNumber: user.policyNumber,
         role: user.role,
       },
-      JWT_SECRET,
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
@@ -99,7 +99,7 @@ export const login = async (req, res, next) => {
   }
 };
 
-export const getUserByPolicyNumber = async (req, res, next) => {
+exports.getUserByPolicyNumber = async (req, res, next) => {
   try {
     const { policyNumber } = req.params;
 
@@ -133,3 +133,4 @@ export const getUserByPolicyNumber = async (req, res, next) => {
     next(ex);
   }
 };
+

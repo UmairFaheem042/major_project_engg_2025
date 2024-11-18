@@ -1,10 +1,23 @@
-import express from "express";
-import { verifyToken } from "./Middlewares/VerifyToken.js";
-import { createClaim, getClaimById } from "../Controllers/claimsController.js";
+const express = require("express");
+const {
+  createClaim,
+  getClaimById,
+  getClaims,
+  getAllClaims,
+} = require("../Controllers/claimsController.js");
+const { verifyToken } = require("../Middlewares/verifyToken.js");
 
 const router = express.Router();
 
-router.post("/createClaim", verifyToken, createClaim);
-router.get("/:claimId", verifyToken, getClaimById);
+// router.post("/createClaim", verifyToken, createClaim);
+router.post("/createClaim", createClaim);
 
-export default router;
+router.get("/:userId/claims", getClaims);
+
+router.get("/:claimId", getClaimById);
+
+
+// router.get("/:claimId", verifyToken, getClaimById);
+router.get("/allClaims", getAllClaims); // all claims for Admin
+
+module.exports = router;
