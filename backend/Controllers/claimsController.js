@@ -90,7 +90,6 @@ exports.getClaimById = async (req, res, next) => {
   }
 };
 
-
 // It'll fetch All Claims for particular User
 exports.getClaims = async (req, res) => {
   try {
@@ -100,7 +99,9 @@ exports.getClaims = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    const claims = await Claim.find({ _id: { $in: user.referencedClaimId } }).sort({ _id: -1 });;
+    const claims = await Claim.find({
+      _id: { $in: user.referencedClaimId },
+    }).sort({ _id: -1 });
     res.status(200).json(claims);
   } catch (error) {
     console.error(error);

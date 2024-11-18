@@ -16,8 +16,7 @@ router.get("/:userId/claims", getClaims);
 
 router.get("/:claimId", getClaimById);
 
-
 // router.get("/:claimId", verifyToken, getClaimById);
-router.get("/allClaims", getAllClaims); // all claims for Admin
+router.get("/admin/allClaims", getAllClaims); // all claims for Admin
 
 module.exports = router;
