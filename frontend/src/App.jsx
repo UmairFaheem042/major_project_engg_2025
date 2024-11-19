@@ -48,7 +48,8 @@ const App = () => {
           }
         />
         <Route
-          path="/user/:userId/report/:claimId"
+          path="/user/report/:claimId"
+          // path="/user/:userId/report/:claimId"
           element={
             <>
               <Header />

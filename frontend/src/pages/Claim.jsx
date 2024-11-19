@@ -22,16 +22,13 @@ const Claim = () => {
     const printContent = document.getElementById("printable-report");
     const originalContent = document.body.innerHTML; // Save the original content
 
-    // Replace the body content with the printable content
     document.body.innerHTML = printContent.innerHTML;
 
     window.print();
 
-    // Restore the original content after printing
     document.body.innerHTML = originalContent;
   };
 
-  console.log(claimData);
   return (
     <div className="max-w-[1400px] mx-auto px-4 py-10">
       <div className="flex justify-between ">

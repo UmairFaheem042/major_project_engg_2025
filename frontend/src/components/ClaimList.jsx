@@ -22,7 +22,7 @@ const ClaimList = ({ title, data, userId }) => {
             View Claim
           </Button>
         </Link>
-        <Link to={`/user/${userId}/report/${data._id}`}>
+        <Link to={`/user/report/${data._id}`}>
           <Button variant="outline" className="min-w-[100px]">
             View Report
           </Button>
