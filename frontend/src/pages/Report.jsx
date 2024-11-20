@@ -2,21 +2,25 @@ import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { convertDateTime } from "../../utils/formatData";
-// import claims from "../../utils/demoData";
 
 const Report = () => {
   const { claimId } = useParams();
   const [currClaim, setCurrClaim] = useState([]);
   const { userId } = useParams();
+  console.log(userId);
 
   useEffect(() => {
     async function getReport() {
-      const response = await fetch(
-        `http://localhost:3000/api/reports/${claimId}`
-      );
-      const data = await response.json();
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/reports/${claimId}`
+        );
+        const data = await response.json();
 
-      setCurrClaim(data.report);
+        setCurrClaim(data.report);
+      } catch (error) {
+        console.log(error);
+      }
     }
     getReport();
   }, []);
@@ -34,10 +38,11 @@ const Report = () => {
     document.body.innerHTML = originalContent;
   };
 
+  const user_id = JSON.parse(localStorage.getItem("user"));
   return (
     <div className="max-w-[1400px] mx-auto px-4 py-10">
       <div className="flex justify-between ">
-        <Link to={`/user/dashboard/${userId}`}>
+        <Link to={`/user/dashboard/${user_id._id}`}>
           <Button>Back</Button>
         </Link>
         <h1 className="text-2xl font-semibold">Report Detail</h1>

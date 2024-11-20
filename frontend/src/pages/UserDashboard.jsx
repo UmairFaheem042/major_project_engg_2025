@@ -1,5 +1,4 @@
-// import { useAuth } from "@clerk/clerk-react";
-import React, { useEffect, useId, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardBox from "../components/DashboardBox";
 import ClaimList from "../components/ClaimList";
 import {
@@ -24,12 +23,13 @@ const UserDashboard = () => {
   const [description, setDescription] = useState("");
   const [issueType, setIssueType] = useState("");
   const [claims, setClaims] = useState([]);
-  const [approvedClaims, setApprovedClaims] = useState(0);
-  const [rejectedClaims, setRejectedClaims] = useState(0);
+  // const [approvedClaims, setApprovedClaims] = useState(0);
+  // const [rejectedClaims, setRejectedClaims] = useState(0);
 
   const { userId } = useParams();
   const user = JSON.parse(localStorage.getItem("user"));
 
+  // console.log(userId)
   async function handleSubmit(e) {
     e.preventDefault();
     const requestData = {
@@ -96,7 +96,6 @@ const UserDashboard = () => {
 
     fetchAllClaimsById();
   }, []);
-  
 
   return (
     <div className="px-4 py-6 max-w-[1400px] mx-auto">

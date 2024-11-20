@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Home from "./pages/Home";
 import UserDashboard from "./pages/UserDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import LandingPage from "./pages/LandingPage";
@@ -38,6 +37,7 @@ const App = () => {
         <Route path="/sign-in" element={<AuthSignIn />} />
         <Route path="/sign-up" element={<AuthSignUp />} />
 
+        {/* Will be Protected Routes */}
         <Route
           path="/user/dashboard/:userId"
           element={
@@ -47,9 +47,9 @@ const App = () => {
             </>
           }
         />
+
         <Route
           path="/user/report/:claimId"
-          // path="/user/:userId/report/:claimId"
           element={
             <>
               <Header />
@@ -57,6 +57,7 @@ const App = () => {
             </>
           }
         />
+
         <Route
           path="/user/:userId/claim/:claimId"
           element={
@@ -66,6 +67,7 @@ const App = () => {
             </>
           }
         />
+
         <Route
           path="/admin-login"
           element={
@@ -74,6 +76,7 @@ const App = () => {
             </>
           }
         />
+
         <Route
           path="/admin/dashboard"
           element={
@@ -82,6 +85,7 @@ const App = () => {
             </>
           }
         />
+        
       </Routes>
     </Router>
   );

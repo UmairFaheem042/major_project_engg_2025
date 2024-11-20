@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 
 const AuthSignUp = () => {
@@ -14,7 +14,6 @@ const AuthSignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
     try {
       const response = await fetch("http://localhost:3000/api/auth/register", {
         method: "POST",
@@ -26,7 +25,7 @@ const AuthSignUp = () => {
           phoneNumber: phone,
           email,
           address,
-          password, // Add a temporary password
+          password,
         }),
       });
 
@@ -36,8 +35,6 @@ const AuthSignUp = () => {
       if (!response.ok) {
         throw new Error(result.msg || "Registration failed");
       }
-
-      // Navigate to login page on success
       navigate("/sign-in");
     } catch (err) {
       // setError(err.message);

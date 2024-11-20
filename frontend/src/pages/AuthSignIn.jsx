@@ -1,6 +1,5 @@
-// import { SignIn, useAuth } from "@clerk/clerk-react";
 import React, { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 
 const AuthSignIn = () => {
@@ -34,7 +33,6 @@ const AuthSignIn = () => {
       localStorage.setItem("authToken", result.token);
       localStorage.setItem("user", JSON.stringify(result.user));
 
-      // Navigate to login page on success
       navigate(`/user/dashboard/${result.user._id}`);
     } catch (error) {
       console.log(error);

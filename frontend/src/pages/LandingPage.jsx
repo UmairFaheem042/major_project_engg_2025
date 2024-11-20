@@ -1,15 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@clerk/clerk-react";
 import React from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 
 const LandingPage = () => {
-  //   const { isSignedIn, userId } = useAuth();
-  //   if (isSignedIn) {
-  //     return <Navigate to={`/user/dashboard/${userId}`} />;
-  //   }
-
   return (
     <div className="p-4 flex flex-col items-center  min-h-screen gap-10">
       <img src={Logo} className="h-[40px]" />
@@ -29,15 +23,6 @@ const LandingPage = () => {
           </Link>
         </div>
       </div>
-      {/* <div className="flex flex-col items-center justify-center">
-        <p>Project Contributors</p>
-        <ul className="flex gap-5">
-          <li>Khushi</li>
-          <li>Ujjwal</li>
-          <li>Umair</li>
-          <li>Vinay</li>
-        </ul>
-      </div> */}
     </div>
   );
 };

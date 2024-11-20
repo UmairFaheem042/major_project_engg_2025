@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import ClaimList from "../components/ClaimList";
 import DashboardBox from "../components/DashboardBox";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -18,7 +17,6 @@ const AdminDashboard = () => {
     fetchAllClaims();
   }, []);
 
-  console.log(allClaims);
   return (
     <div className="px-4 py-6 max-w-[1400px] mx-auto">
       <div className="my-5 flex justify-between items-center">
@@ -27,7 +25,6 @@ const AdminDashboard = () => {
         </h1>
       </div>
 
-      {/* stats */}
       <div className="mt-10 grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3">
         <DashboardBox label={"Total Claims"} count={allClaims?.length} />
         <DashboardBox label={"Claims Approved"} count={"NA"} />

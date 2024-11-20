@@ -9,18 +9,22 @@ const Claim = () => {
   const [claimData, setClaimData] = useState([]);
   useEffect(() => {
     async function fetchClaimById() {
-      const response = await fetch(
-        `http://localhost:3000/api/claims/${claimId}`
-      );
-      const data = await response.json();
-      setClaimData(data.claim);
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/claims/${claimId}`
+        );
+        const data = await response.json();
+        setClaimData(data.claim);
+      } catch (error) {
+        console.log(error);
+      }
     }
     fetchClaimById();
   }, []);
 
   const handlePrint = () => {
     const printContent = document.getElementById("printable-report");
-    const originalContent = document.body.innerHTML; // Save the original content
+    const originalContent = document.body.innerHTML;
 
     document.body.innerHTML = printContent.innerHTML;
 
