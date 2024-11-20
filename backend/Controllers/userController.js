@@ -7,6 +7,8 @@ require("dotenv").config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
+console.log(process.env.EMAIL_USER)
+console.log(process.env.EMAIL_PASS)
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
