@@ -7,6 +7,7 @@ const claimRoutes = require("./Routes/claimRoutes.js");
 const reportRoutes = require("./Routes/reportRoutes.js");
 
 dotenv.config();
+
 const app = express();
 
 app.use(cors());
