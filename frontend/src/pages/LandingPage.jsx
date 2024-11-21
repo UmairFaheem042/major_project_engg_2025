@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 
 const LandingPage = () => {
+  useEffect(() => {
+    document.title = "VMed - Home";
+  }, []);
   return (
     <div className="p-4 flex flex-col items-center  min-h-screen gap-10">
       <img src={Logo} className="h-[40px]" />

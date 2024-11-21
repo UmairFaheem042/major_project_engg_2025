@@ -6,6 +6,10 @@ import { convertDateTime } from "../../utils/formatData";
 const Claim = () => {
   const { userId, claimId } = useParams();
 
+  useEffect(() => {
+    document.title = "VMed - Claim";
+  }, []);
+  
   const [claimData, setClaimData] = useState([]);
   useEffect(() => {
     async function fetchClaimById() {

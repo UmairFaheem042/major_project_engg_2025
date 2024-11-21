@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.svg";
+import { Button } from "@/components/ui/button";
+import { toast, ToastContainer } from "react-toastify";
 
 const AuthSignUp = () => {
   const navigate = useNavigate();
@@ -10,9 +12,15 @@ const AuthSignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    document.title = "VMed - Sign Up";
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await fetch("http://localhost:3000/api/auth/register", {
@@ -31,14 +39,18 @@ const AuthSignUp = () => {
 
       const result = await response.json();
       console.log(result);
-
       if (!response.ok) {
         throw new Error(result.msg || "Registration failed");
       }
-      navigate("/sign-in");
+      toast.info("Redirecting to sign in page...");
+      setTimeout(() => {
+        navigate("/sign-in");
+      }, 1000);
     } catch (err) {
-      // setError(err.message);
       console.log(err);
+      toast.error("An Error Occurred!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,6 +85,7 @@ const AuthSignUp = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="mt-1 w-full rounded-md border p-2 bg-white text-sm text-gray-700 shadow-sm"
+                  required
                 />
               </div>
 
@@ -87,6 +100,7 @@ const AuthSignUp = () => {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="mt-1 w-full rounded-md  border p-2 bg-white text-sm text-gray-700 shadow-sm"
+                  required
                 />
               </div>
 
@@ -101,8 +115,10 @@ const AuthSignUp = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="mt-1 w-full rounded-md  border p-2 bg-white text-sm text-gray-700 shadow-sm"
+                  required
                 />
               </div>
+
               <div className="col-span-6">
                 <label className="block text-sm font-medium text-gray-700">
                   {" "}
@@ -110,10 +126,11 @@ const AuthSignUp = () => {
                 </label>
 
                 <input
-                  type="text"
+                  type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="mt-1 w-full rounded-md  border p-2 bg-white text-sm text-gray-700 shadow-sm"
+                  required
                 />
               </div>
 
@@ -127,13 +144,19 @@ const AuthSignUp = () => {
                   className="mt-1 w-full !h-[120px] rounded-md  border p-2 bg-white text-sm text-gray-700 shadow-sm"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
+                  required
                 />
               </div>
 
               <div className="flex flex-col gap-4 items-center ">
-                <button className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
-                  Create an account
-                </button>
+                <Button
+                  className={`border-blue-600 bg-blue-600 px-6 py-3  ${
+                    loading && "pointer-events-none opacity-50"
+                  }`}
+                  disabled={loading}
+                >
+                  {loading ? "Creating Account ..." : "Create an account"}
+                </Button>
 
                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
                   Already have an account?
@@ -146,6 +169,7 @@ const AuthSignUp = () => {
           </div>
         </main>
       </div>
+      <ToastContainer />
     </section>
   );
 };

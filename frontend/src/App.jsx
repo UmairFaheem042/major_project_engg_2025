@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ProtectedRoute from "./components/ProtectedRoute";
+// import ProtectedRoute from "./components/ProtectedRoute";
 import UserDashboard from "./pages/UserDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import LandingPage from "./pages/LandingPage";
@@ -10,27 +10,10 @@ import Header from "./components/Header";
 import Report from "./pages/Report";
 import AdminLogin from "./pages/AdminLogin";
 import Claim from "./pages/Claim";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
-    // <Router>
-    //   <Routes>
-    //     <Route path="/" element={<LandingPage />} />
-    //     <Route path="/sign-in" element={<AuthSignIn/>}/>
-    //     <Route path="/sign-in" element={<AuthSignIn/>}/>
-
-    //     {/* Protected Routes */}
-    //     <Route
-    //       path="/user/dashboard/[userId]"
-    //       element={
-    //         <ProtectedRoute>
-    //           <UserDashboard />
-    //         </ProtectedRoute>
-    //       }
-    //     />
-    //   </Routes>
-    // </Router>
-
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
@@ -85,8 +68,8 @@ const App = () => {
             </>
           }
         />
-        
       </Routes>
+      {/* <ToastContainer/> */}
     </Router>
   );
 };

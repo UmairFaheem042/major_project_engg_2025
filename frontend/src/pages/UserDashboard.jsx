@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DashboardBox from "../components/DashboardBox";
 import ClaimList from "../components/ClaimList";
+import Error from "../pages/Error";
+
 import {
   Dialog,
   DialogContent,
@@ -12,7 +14,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const UserDashboard = () => {
   const [policyNumber, setPolicyNumber] = useState("");
@@ -23,13 +26,17 @@ const UserDashboard = () => {
   const [description, setDescription] = useState("");
   const [issueType, setIssueType] = useState("");
   const [claims, setClaims] = useState([]);
+  const [error, setError] = useState(false);
   // const [approvedClaims, setApprovedClaims] = useState(0);
   // const [rejectedClaims, setRejectedClaims] = useState(0);
 
   const { userId } = useParams();
   const user = JSON.parse(localStorage.getItem("user"));
 
-  // console.log(userId)
+  useEffect(() => {
+    document.title = "VMed - Dashboard";
+  }, []);
+
   async function handleSubmit(e) {
     e.preventDefault();
     const requestData = {
@@ -43,7 +50,7 @@ const UserDashboard = () => {
       kidneyRelated: issueType === "kidney",
       heartRelated: issueType === "heart",
     };
-    console.log(requestData);
+
     const token = localStorage.getItem("authToken");
     try {
       const response = await fetch(
@@ -59,39 +66,38 @@ const UserDashboard = () => {
       );
       console.log(response);
       if (!response.ok) {
-        alert("Error creating claim");
+        toast.error("An Error Occurred");
         return;
       }
 
       const data = await response.json();
       setClaims((prev) => [...prev] + data);
       window.location.reload();
-
-      if (response.ok) {
-        setPolicyNumber("");
-        setHospitalName("");
-        setEmail("");
-        setName("");
-        setClaimAmount("");
-        setDescription("");
-        setIssueType("");
-      } else {
-        alert(`Error: ${data.msg}`);
-      }
+      setPolicyNumber("");
+      setHospitalName("");
+      setEmail("");
+      setName("");
+      setClaimAmount("");
+      setDescription("");
+      setIssueType("");
     } catch (error) {
       console.error("Error creating claim:", error);
-      alert("Something went wrong. Please try again.");
+      toast.error("Something went wrong!");
     }
   }
 
   useEffect(() => {
     async function fetchAllClaimsById() {
-      const response = await fetch(
-        `http://localhost:3000/api/claims/${userId}/claims`
-      );
-      const data = await response.json();
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/claims/${userId}/claims`
+        );
+        const data = await response.json();
 
-      setClaims(data);
+        setClaims(data);
+      } catch (error) {
+        setError(true);
+      }
     }
 
     fetchAllClaimsById();
@@ -101,7 +107,7 @@ const UserDashboard = () => {
     <div className="px-4 py-6 max-w-[1400px] mx-auto">
       <div className="my-5 flex justify-between items-center">
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold">
-          Hello <span className="text-blue-500">{user.name}</span>
+          Hello <span className="text-blue-500">{user?.name}</span>
         </h1>
         <Dialog className="w-[100%] ">
           <DialogTrigger asChild>
@@ -200,18 +206,27 @@ const UserDashboard = () => {
       {/* recent claims */}
       <div className="mt-10">
         <h3 className="text-xl font-semibold">Recent Claims</h3>
-        <ul className="mt-4 flex flex-col gap-2">
-          {claims &&
-            claims?.map((item) => (
-              <ClaimList
-                key={item._id}
-                title={item._id}
-                data={item}
-                userId={userId}
-              />
-            ))}
-        </ul>
+        {!error ? (
+          <ul className="mt-4 flex flex-col gap-2">
+            {claims &&
+              claims?.map((item) => (
+                <ClaimList
+                  key={item._id}
+                  title={item._id}
+                  data={item}
+                  userId={userId}
+                />
+              ))}
+          </ul>
+        ) : (
+          <div className="flex flex-col ">
+            <p className="mt-2 text-red-500 italic text-md font-medium">
+              Error in fetching Claims
+            </p>
+          </div>
+        )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

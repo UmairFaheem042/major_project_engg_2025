@@ -10,6 +10,10 @@ const Report = () => {
   console.log(userId);
 
   useEffect(() => {
+    document.title = "VMed - Report";
+  }, []);
+
+  useEffect(() => {
     async function getReport() {
       try {
         const response = await fetch(
